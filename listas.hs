@@ -7,12 +7,16 @@ meuLast xs = last xs
 {-
 - Encontra o penultimo elemento de uma lista. Caso a lista seja vazia ou tenha apenas um elemento retorne o seguinte comando: error "Lista sem penultimo"
 -}
-penultimo xs = last . init 
+penultimo [] = error "Lista sem penultimo!"
+penultimo [x] = error "Lista sem penultimo!"
+penultimo xs = last initList
+              where initList = init xs
 
 {-
 - Retorna o k-esimo (k varia de 1 ate N) elemento de uma lista. Ex: elementAt 2 [4,7,1,9] = 7
 -}
-elementAt i xs = undefined
+elementAt 1 x:xs = x
+elementAt i x:xs =
 
 {-
 - Retorna o tamanho de uma lista.
