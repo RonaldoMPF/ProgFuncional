@@ -12,7 +12,7 @@ tripleThr (Triple a b c) = c
 data Quadruple a b = Quadruple a a b b deriving (Eq,Show)
 
 firstTwo (Quadruple a b c d) = (a, b)
-secondTwo = (Quadruple a b c d)
+secondTwo (Quadruple a b c d) = (c, d)
 
 --Escreva um tipo de dados que pode conter um, dois, tres ou quatro elementos, dependendo do construtor
 --Implemente funções tuple1 até tuple4 que que retornam Just <valor> ou Nothing se o valor nao existe

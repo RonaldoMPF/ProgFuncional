@@ -15,9 +15,11 @@ penultimo xs = last initList
 {-
 - Retorna o k-esimo (k varia de 1 ate N) elemento de uma lista. Ex: elementAt 2 [4,7,1,9] = 7
 -}
-elementAt 1 x:xs = x
-elementAt i x:xs =
+elementAt 1 (x:xs) = x
+elementAt k (x:xs) = elementAt' 1 k (x:xs)
 
+elementAt' i k (x:xs) | i == k = x
+                      | i /= k = elementAt' (i+1) k xs
 {-
 - Retorna o tamanho de uma lista.
 -}
