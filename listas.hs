@@ -15,6 +15,7 @@ penultimo xs = last initList
 {-
 - Retorna o k-esimo (k varia de 1 ate N) elemento de uma lista. Ex: elementAt 2 [4,7,1,9] = 7
 -}
+elementAt k [] = error "Lista Vazia!"
 elementAt 1 (x:xs) = x
 elementAt k (x:xs) = elementAt' 1 k (x:xs)
 
@@ -23,24 +24,30 @@ elementAt' i k (x:xs) | i == k = x
 {-
 - Retorna o tamanho de uma lista.
 -}
-meuLength xs = undefined
+meuLength [] = 0
+meuLength (x:xs) = 1 + meuLength xs
 
 {-
 - Retorna o inverso de uma lista.
 -}
-meuReverso xs = undefined
+meuReverso [] = []
+meuReverso (x:xs) = meuReverso (xs) ++ [x]
 
 {-
 - Diz se uma lista é palindrome.
 -}
-isPalindrome xs = undefined
+
+isPalindrome [] =  True
+isPalindrome [x] = True
+isPalindrome xs | xs == meuReverso xs = True
+                | xs /= meuReverso xs = False
 
 {-
 - Remove os elementos duplicados de uma lista. Ex: compress [2,5,8,2,1,8] = [2,5,8,1]
 - Voce pode usar a funcao elem de Haskell
 -}
-compress xs = undefined
-
+compress (x:xs) | elem x xs == False = [x] + compress xs
+                | elem x xs == True = compress xs
 {-
 - Varre a lista da esquerda para a direita e junta os elementos iguais. Ex: compact [2,5,8,2,1,8] = [2,2,5,8,8,1]
 - Voce pode usar funcoes sobre listas como : (cons), filter, etc.
