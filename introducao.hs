@@ -15,7 +15,7 @@ square x = x*x
 {-
 - Implemente a funcao potencia, que retorna o resultado de x elevado a y
 -}
-pow 0 0 = undefined
+pow 0 0 = error "Not determined!"
 pow x 0 = 1
 pow 0 y = 0
 pow x y | y > 0 = x * (pow x (y-1))
@@ -27,7 +27,7 @@ pow x y | y > 0 = x * (pow x (y-1))
 -}
 fatorial 0 = 1
 fatorial x | x > 0 = x * fatorial(x-1)
-           | otherwise = undefined
+           | otherwise = error "Negative number!"
 
 {-
 - Determina se um numero eh primo ou nao. Preocupe-se apenas em resolver o problema.
@@ -55,7 +55,7 @@ fib n | n > 0 = fib (n-1) + fib (n-2)
 {-
 - Calcula um MDC de dois numeros usando o algoritmo de Euclides.
 -}
-mdc x y | x `mod` y == 0 = y
+mdc x y | remainder == 0 = y
         | otherwise = mdc y remainder
         where remainder = x `mod` y
 

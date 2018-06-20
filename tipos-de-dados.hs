@@ -16,12 +16,17 @@ secondTwo (Quadruple a b c d) = (c, d)
 
 --Escreva um tipo de dados que pode conter um, dois, tres ou quatro elementos, dependendo do construtor
 --Implemente funções tuple1 até tuple4 que que retornam Just <valor> ou Nothing se o valor nao existe
-data Tuple a b c d = NVazio
+data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving (Eq, Show)
 
-tuple1 = undefined
-tuple2 = undefined
-tuple3 = undefined
-tuple4 = undefined
+tuple1 (Tuple1 a) =  Just a
+tuple1 (Tuple2 a b) = Just a
+tuple1 (Tuple3 a b c) =  Just a
+tuple1 (Tuple4 a b c d) =  Just a
+
+tuple2 (Tuple2 a b) =  Just b
+tuple2 (Tuple3 a b c) = Just b
+tuple2 (Tuple4 a b c d) = Just b
+tuple2  _  = Nothing
 
 data List a = Nil | Cons a (List a) deriving (Eq,Show)
 

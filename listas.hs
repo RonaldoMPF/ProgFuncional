@@ -17,10 +17,11 @@ penultimo xs = last initList
 -}
 elementAt k [] = error "Lista Vazia!"
 elementAt 1 (x:xs) = x
-elementAt k (x:xs) = elementAt' 1 k (x:xs)
+elementAt k (x:xs) | k > meuLength (x:xs) = error "List index out of range!"
+                   |k <= meuLength(x:xs) = elementAt' 1 k (x:xs)
 
 elementAt' i k (x:xs) | i == k = x
-                      | i /= k = elementAt' (i+1) k xs
+                      | otherwise = elementAt' (i+1) k xs
 {-
 - Retorna o tamanho de uma lista.
 -}
@@ -40,32 +41,57 @@ meuReverso (x:xs) = meuReverso (xs) ++ [x]
 isPalindrome [] =  True
 isPalindrome [x] = True
 isPalindrome xs | xs == meuReverso xs = True
-                | xs /= meuReverso xs = False
+                | otherwise = False
 
 {-
 - Remove os elementos duplicados de uma lista. Ex: compress [2,5,8,2,1,8] = [2,5,8,1]
 - Voce pode usar a funcao elem de Haskell
 -}
-compress (x:xs) | elem x xs == False = [x] + compress xs
-                | elem x xs == True = compress xs
+compress [] = []
+compress xs | elem lasElement inicialList == True = compress inicialList
+            | otherwise = compress inicialList ++ [lasElement] where
+              lasElement = last xs
+              inicialList = init xs
+
+{- Conta ocorrencias de um elemento em uma lista-}
+countOcurrences k [] = 0
+countOcurrences k (x:xs) | k == x = 1 + countOcurrences k xs
+                         | otherwise = countOcurrences k xs
 {-
 - Varre a lista da esquerda para a direita e junta os elementos iguais. Ex: compact [2,5,8,2,1,8] = [2,2,5,8,8,1]
 - Voce pode usar funcoes sobre listas como : (cons), filter, etc.
 -}
-compact xs = undefined
+compact [] = []
+compact xs = compact' compresedList xs where
+  compresedList = compress xs
+
+compact' [] ys = []
+compact' (x:xs) ys = replicate k x ++ compact' xs ys where
+  k = countOcurrences x ys
+
 
 
 {-
 - Retorna uma lista de pares com os elementos e suas quantidades. Ex: encode [2,2,2,3,4,2,5,2,4,5] = [(2,5),(3,1),(4,2),(5,2)]
 - Voce pode usar funcoes sobre listas como : (cons), filter, etc.
 -}
-encode xs = undefined
+
+encode [] = []
+encode xs = [ (x, countOcurrences x xs) | x <- compresedList] where
+  compresedList = compress xs
 
 {-
 - Divide uma lista em duas sublistas onde o ponto de divisao é dado. Ex: split [3,6,1,9,4] 3 = [[3,6,1],[9,4]]
 -}
-split xs i = undefined
+split [] i = error "Lista Vazia!"
+split xs 0 = [[], xs]
+split xs i | i > meuLength xs = error "List index out of range!"
+           | otherwise = [ [ x | x <- xs, indexof x xs <= i], [ y | y <- xs, indexof y xs > i] ]
 
+
+indexof n [] = error "Element not in list!"
+indexof n (x:xs) | n == x = 1
+                 | otherwise = 1 + indexof n xs
 {-
 - Extrai um pedaço (slice) de uma lista especificado por um intervalo.
 - Ex: slice [3,6,1,9,4] 2 4 = [6,1,9]
