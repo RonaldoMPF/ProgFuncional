@@ -38,7 +38,10 @@ goldbach x = (\x -> [ (y, z) | y <- filter isPrime [1..(x-1)], z <- filter isPri
 
 --Implemente as funções sobre listas escritas previsamente usando expressões lambda
 --consulte suas implementacoes anteriores para a documentacao dessas funcoes
-meuLast xs = undefined
+
+meuLast [] = error "lista Vazia!"
+meuLast xs = (\x -> last x) xs
+
 penultimo xs = undefined
 elementAt i xs = undefined
 meuLength xs = undefined

@@ -52,6 +52,15 @@ fib 1 = 1
 fib n | n > 0 = fib (n-1) + fib (n-2)
       | otherwise = undefined
 
+fastFib 0 = 0
+fastFib 1 = 1
+fastFib n = fastFib' [0, 1] (n+1) 2
+
+fastFib' (x:xs) n count | count == n = last xs
+                        | otherwise = fastFib' ((x:xs) ++ [(listLast + beforeLast)]) n (count+1) where
+                          listLast = last xs
+                          beforeLast = last (init (x:xs))
+
 {-
 - Calcula um MDC de dois numeros usando o algoritmo de Euclides.
 -}

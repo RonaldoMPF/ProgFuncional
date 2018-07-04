@@ -1,7 +1,7 @@
 {-
 - Encontra o ultimo elemento de uma lista. Caso a lista seja vazia retorne o seguinte comando: error "Lista vazia!"
 -}
-meuLast [] = error "Lista vazia!"
+meuLast [] = error "Empty List!"
 meuLast xs = last xs
 
 {-
@@ -15,7 +15,7 @@ penultimo xs = last initList
 {-
 - Retorna o k-esimo (k varia de 1 ate N) elemento de uma lista. Ex: elementAt 2 [4,7,1,9] = 7
 -}
-elementAt k [] = error "Lista Vazia!"
+elementAt k [] = error "Empty List!"
 elementAt 1 (x:xs) = x
 elementAt k (x:xs) | k > meuLength (x:xs) = error "List index out of range!"
                    |k <= meuLength(x:xs) = elementAt' 1 k (x:xs)
@@ -75,7 +75,7 @@ compact' (x:xs) ys = replicate k x ++ compact' xs ys where
 - Retorna uma lista de pares com os elementos e suas quantidades. Ex: encode [2,2,2,3,4,2,5,2,4,5] = [(2,5),(3,1),(4,2),(5,2)]
 - Voce pode usar funcoes sobre listas como : (cons), filter, etc.
 -}
-
+encode :: [Int] -> [(Int, Int)]
 encode [] = []
 encode xs = [ (x, countOcurrences x xs) | x <- compresedList] where
   compresedList = compress xs
@@ -83,26 +83,38 @@ encode xs = [ (x, countOcurrences x xs) | x <- compresedList] where
 {-
 - Divide uma lista em duas sublistas onde o ponto de divisao é dado. Ex: split [3,6,1,9,4] 3 = [[3,6,1],[9,4]]
 -}
-split [] i = error "Lista Vazia!"
+split :: [Int] -> Int -> [[Int]]
+split [] i = error "Empty List!"
 split xs 0 = [[], xs]
 split xs i | i > meuLength xs = error "List index out of range!"
            | otherwise = [ [ x | x <- xs, indexof x xs <= i], [ y | y <- xs, indexof y xs > i] ]
 
-
-indexof n [] = error "Element not in list!"
+indexof :: Int -> [Int] -> Int
+indexof n [] = error "Empty List!"
 indexof n (x:xs) | n == x = 1
                  | otherwise = 1 + indexof n xs
 {-
 - Extrai um pedaço (slice) de uma lista especificado por um intervalo.
 - Ex: slice [3,6,1,9,4] 2 4 = [6,1,9]
 -}
-slice xs imin imax = undefined
+slice :: [Int] -> Int -> Int -> [Int]
+slice xs imin imax = [ x | x <- xs, (indexof x xs) <= imax, (indexof x xs) >= imin]
+
 
 {-
 - Insere um elemento em uma posicao especifica de uma lista.
 - Ex: insertAt 7 4 [3,6,1,9,4] = [3,6,1,7,9,4]
 -}
-insertAt el pos xs = undefined
+insertAt :: Int -> Int -> [Int] -> [Int]
+insertAt el pos [] = []
+insertAt el 1 xs = (el : xs)
+insertAt el pos xs = insertAt' el pos xs 1
+
+insertAt' :: Int -> Int -> [Int] -> Int -> [Int]
+insertAt' el pos [] index = []
+insertAt' el pos (x:xs) index | index == pos =  (el: x : insertAt' el pos xs (index+1))
+                              | otherwise = (x : insertAt' el pos xs (index+1))
+
 
 {-
 - Ordena uma lista em ordem crescente. Voce deve seguir a ideia do selectionsort onde os elementos
